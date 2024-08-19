@@ -13,7 +13,9 @@ def get_sections():
 
 @section_router.route('/section', methods=['POST'])
 def create_section():
+
     data = request.get_json()
+    print(data)
     section = Section(name=data['name'])
     db.session.add(section)
     db.session.commit()

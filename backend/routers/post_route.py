@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from config import db
 from models import Post
+from models import Section
 
 post_router = Blueprint('post', __name__)
 
@@ -13,11 +14,16 @@ def create_post():
     return jsonify(post.to_json())
 
 
-@post_router.route('/posts/<int:section_id>', methods=['GET'])
-def get_posts_by_section(section_id):
-    posts = Post.query.filter_by(section_id=section_id).all()
-    return jsonify([post.to_json() for post in posts])
-    
+@post_router.route('/post/<int:id>', methods=['GET'])
+def get_post(id):
+    section = Section.query.get(id)
+    if not section:
+        return jsonify({'message': 'Section not found'}), 404
+    posts = section.posts
+    result = []
+    for post in posts:
+        result.append(post.to_json())
+    return jsonify(result)
 
 
 @post_router.route('/post/<int:id>', methods=['PUT'])
