@@ -5,7 +5,8 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     section_id = db.Column(db.Integer, db.ForeignKey('section.id'), nullable=False)
 
-    def __init__(self, content):
+    def __init__(self, content, section_id):
+        self.section_id = section_id
         self.content = content  
 
     def to_json(self):

@@ -8,7 +8,7 @@ post_router = Blueprint('post', __name__)
 @post_router.route('/post', methods=['POST'])
 def create_post():
     data = request.get_json()
-    post = Post(content=data['content'])
+    post = Post(content=data['content'], section_id=data['section_id'])
     db.session.add(post)
     db.session.commit()
     return jsonify(post.to_json())

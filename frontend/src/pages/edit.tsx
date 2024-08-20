@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { SectionInterface } from "../interface/SectionInterface";
-import Section from "../components/section";
 import { useNavigate } from "react-router-dom";
 
 export default function Edit() {
     const [sections, setSections] = useState([]);
     const [sectionName, setSectionName] = useState("");
-    const [sectionId, setSectionId] = useState(0);
+    const [newSectionName, setNewSectionName] = useState("");
     const redirect = useNavigate();
 
     useEffect(() => {
@@ -59,9 +58,30 @@ export default function Edit() {
     }
 
     function UpdateSection(id: number) {
-        console.log(id);
-        setSectionId(id);
-        redirect(`/postEditor/${id}`);
+        const fetchData = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:5000/section/${id}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ name: newSectionName }),
+                    }
+                );
+                const data = await response.json();
+                console.log(data);
+                GetSections();
+                setNewSectionName("");
+            } catch (error) {
+                console.error("Error:", error);
+            }
+
+            GetSections();
+        };
+
+        fetchData();
     }
 
     function GetSections() {
@@ -94,13 +114,19 @@ export default function Edit() {
             <button onClick={AddSection}>Add Section</button>
             {sections.map((section: SectionInterface) => (
                 <div key={section.id}>
-                    <Section name={section.name} id={0} />
+                    <div>{section.name}</div>
                     <button onClick={() => DeleteSection(section.id)}>
                         Delete
                     </button>
-                    <button onClick={() => redirect(`/postEditor/${section.id}`)}>
+                    <button onClick={() => redirect(`/edit/post/${section.id}`)}>
                         Edit
                     </button>
+                    <button>Change Name</button>
+                    <div>
+                        <input type="text" onChange={(e) => setNewSectionName(e.target.value)}></input>
+                        <button onClick={() => UpdateSection(section.id)}>Update</button>
+                        <button>Cancel</button>
+                    </div>
                 </div>
             ))}
         </div>
