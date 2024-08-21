@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ContentInterface } from "../interface/ContentInterface";
+import MDEditor from '@uiw/react-md-editor';
+
 
 export default function PostView() {
   const { section_id } = useParams();
@@ -96,17 +98,21 @@ export default function PostView() {
   };
 
   return (
-    <div>
+    <div >
         <button onClick={() => navigate("/edit")} >Back</button>
       {posts.map((post) => (
         <div key={post.id}>
-          <div>{post.content}</div>
+          <MDEditor.Markdown source={post.content}/>
           <button onClick={() => Delete(post.id)}>Delete</button>
           <button onClick={() => Edit(post.content, post.id)}>Edit</button>
         </div>
       ))}
       <button onClick={() => setNewPost(true)}>add new post</button>
-      <textarea value={postContext} onChange={(e) => setPostContext(e.target.value)} />
+      <MDEditor
+        value={postContext}
+        onChange={(e) => setPostContext(e || "")}
+      />
+      
       <button onClick={Save}>Save</button>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { SectionInterface } from "../interface/SectionInterface";
 import { PostContentInterface } from "../interface/PostCreatorInterface";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function View() {
     const [sections, setSections] = useState<SectionInterface[]>([]);
@@ -49,10 +50,11 @@ export default function View() {
     }, [selectedSection]);
 
     return (
-        <div>
-            <div>
+        <div >
+            <div className="menu" >
                 {sections.map((section) => (
                     <div
+                        className="menu-item"
                         key={section.id}
                         onClick={() => setSelectedSection(section.id)}
                     >
@@ -60,10 +62,11 @@ export default function View() {
                     </div>
                 ))}
             </div>
-            <div>
+            <div className="post-container">
                 {postList.map((post: PostContentInterface) => (
-                    <div key={post.id}>{post.content}</div>
+                    <MDEditor.Markdown source={post.content}/>
                 ))}
+
             </div>
         </div>
     );

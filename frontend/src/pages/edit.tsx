@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { SectionInterface } from "../interface/SectionInterface";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faTrash,
+    faPlus,
+    faPenToSquare,
+    faGear,
+    faCheck,
+    faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Edit() {
     const [sections, setSections] = useState([]);
@@ -105,30 +114,55 @@ export default function Edit() {
 
     return (
         <div>
-            <h1>Edit</h1>
-            <input
-                type="text"
-                value={sectionName}
-                onChange={(e) => setSectionName(e.target.value)}
-            ></input>
-            <button onClick={AddSection}>Add Section</button>
-            {sections.map((section: SectionInterface) => (
-                <div key={section.id}>
-                    <div>{section.name}</div>
-                    <button onClick={() => DeleteSection(section.id)}>
-                        Delete
+            <h1>Menu sections: </h1>
+            <div className="container">
+                <div className="new-section">
+                    <input
+                        type="text"
+                        value={sectionName}
+                        onChange={(e) => setSectionName(e.target.value)}
+                    ></input>
+                    <button onClick={AddSection}>
+                        New Section <FontAwesomeIcon icon={faPlus} />
                     </button>
-                    <button onClick={() => redirect(`/edit/post/${section.id}`)}>
-                        Edit
-                    </button>
-                    <button>Change Name</button>
-                    <div>
-                        <input type="text" onChange={(e) => setNewSectionName(e.target.value)}></input>
-                        <button onClick={() => UpdateSection(section.id)}>Update</button>
-                        <button>Cancel</button>
-                    </div>
                 </div>
-            ))}
+                <div className="section">
+                    {sections.map((section: SectionInterface) => (
+                        <div key={section.id}>
+                            <div>{section.name}</div>
+                            <button onClick={() => DeleteSection(section.id)}>
+                                <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                            <button
+                                onClick={() =>
+                                    redirect(`/edit/post/${section.id}`)
+                                }
+                            >
+                                <FontAwesomeIcon icon={faGear} />
+                            </button>
+                            <button>
+                                <FontAwesomeIcon icon={faPenToSquare} />
+                            </button>
+                            <div>
+                                <input
+                                    type="text"
+                                    onChange={(e) =>
+                                        setNewSectionName(e.target.value)
+                                    }
+                                ></input>
+                                <button
+                                    onClick={() => UpdateSection(section.id)}
+                                >
+                                    <FontAwesomeIcon icon={faCheck} />
+                                </button>
+                                <button>
+                                    <FontAwesomeIcon icon={faXmark} />
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }
