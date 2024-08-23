@@ -38,6 +38,8 @@ def delete_section(id):
     section = Section.query.get(id)
     if not section:
         return jsonify({'message': 'Section not found'}), 404
+    for post in section.posts:
+        db.session.delete(post)
     db.session.delete(section)
     db.session.commit()
-    return jsonify({'message': 'Section deleted'})
+    return jsonify({'message': 'Section and its posts deleted'})

@@ -53,13 +53,13 @@ export default function View() {
         <div >
             <div className="menu" >
                 {sections.map((section) => (
-                    <div
+                    <button
                         className="menu-item"
                         key={section.id}
                         onClick={() => setSelectedSection(section.id)}
                     >
                         {section.name}
-                    </div>
+                    </button>
                 ))}
             </div>
             <div className="post-container">

@@ -114,7 +114,7 @@ export default function Edit() {
 
     return (
         <div>
-            <h1>Menu sections: </h1>
+            <h1>Menu sections </h1>
             <div className="container">
                 <div className="new-section">
                     <input
@@ -122,42 +122,61 @@ export default function Edit() {
                         value={sectionName}
                         onChange={(e) => setSectionName(e.target.value)}
                     ></input>
-                    <button onClick={AddSection}>
+                    <button onClick={AddSection} className="accept-button options-button" id="add">
                         New Section <FontAwesomeIcon icon={faPlus} />
                     </button>
                 </div>
                 <div className="section">
                     {sections.map((section: SectionInterface) => (
                         <div key={section.id}>
-                            <div>{section.name}</div>
-                            <button onClick={() => DeleteSection(section.id)}>
-                                <FontAwesomeIcon icon={faTrash} />
-                            </button>
-                            <button
-                                onClick={() =>
-                                    redirect(`/edit/post/${section.id}`)
-                                }
-                            >
-                                <FontAwesomeIcon icon={faGear} />
-                            </button>
-                            <button>
-                                <FontAwesomeIcon icon={faPenToSquare} />
-                            </button>
+                            <div className="section-name">
+                                <div className="section-name-text">{section.name}</div>
+                                <div className="section-options">
+                                    <button
+                                        title="Delete Section"
+                                        className="delete-button options-button"
+                                        onClick={() =>
+                                            DeleteSection(section.id)
+                                        }
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                    <button
+                                        title="Edit Section Content"
+                                        className="edit-button options-button"
+                                        onClick={() =>
+                                            redirect(`/edit/post/${section.id}`)
+                                        }
+                                    >
+                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                    </button>
+                                </div>
+                            </div>
                             <div>
-                                <input
-                                    type="text"
-                                    onChange={(e) =>
-                                        setNewSectionName(e.target.value)
-                                    }
-                                ></input>
-                                <button
-                                    onClick={() => UpdateSection(section.id)}
-                                >
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </button>
-                                <button>
-                                    <FontAwesomeIcon icon={faXmark} />
-                                </button>
+                                <h2>Sectio options</h2>
+                                <div className="section-name">
+                                    <div>
+                                    <input
+                                        title="Enter new section name"
+                                        type="text"
+                                        onChange={(e) =>
+                                            setNewSectionName(e.target.value)
+                                        }
+                                        placeholder="Enter new section name"
+                                    ></input>
+                                    </div>
+                                    <div className="section-options">
+                                        <button
+                                            title="Accept Section Name"
+                                            className="accept-button options-button"
+                                            onClick={() =>
+                                                UpdateSection(section.id)
+                                            }
+                                        >
+                                            <FontAwesomeIcon icon={faCheck} />
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     ))}
