@@ -8,5 +8,10 @@
     --color-four: #999ac6;
     --color-five: #798071;
 
+    --color-wrong: #f81010;
+    --color-correct: #009842;
+    --color-worning: #f4d400;
+    --color-edit: #0080ff;
+
     --font: "Lato", sans-serif;
 }

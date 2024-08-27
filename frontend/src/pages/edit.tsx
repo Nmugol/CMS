@@ -6,9 +6,8 @@ import {
     faTrash,
     faPlus,
     faPenToSquare,
-    faGear,
     faCheck,
-    faXmark,
+    faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Edit() {
@@ -18,8 +17,16 @@ export default function Edit() {
     const redirect = useNavigate();
 
     useEffect(() => {
+        if(!localStorage.getItem("token")) {
+            redirect("/login");
+        }
         GetSections();
     }, []);
+
+    function LogOut(){
+        localStorage.removeItem("token");
+        redirect("/login");
+    }
 
     function AddSection() {
         const fetchData = async () => {
@@ -115,6 +122,7 @@ export default function Edit() {
     return (
         <div>
             <h1>Menu sections </h1>
+            <button title="Log out" onClick={LogOut} className="log-out"><FontAwesomeIcon icon={faPowerOff} /></button>
             <div className="container">
                 <div className="new-section">
                     <input

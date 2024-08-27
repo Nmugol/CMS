@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ContentInterface } from "../interface/ContentInterface";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faTrash,
+    faXmark,
+    faPenToSquare,
+    faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import MDEditor from "@uiw/react-md-editor";
 
 export default function PostView() {
@@ -36,6 +43,7 @@ export default function PostView() {
     };
 
     const Edit = (text: string, postID: number) => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
         setPostContext(text);
         setPostID(postID);
         setNewPost(false);
@@ -111,6 +119,7 @@ export default function PostView() {
                 <button
                     className="add-post-button"
                     onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
                         setNewPost(true);
                         setShowEditor(true);
                     }}
@@ -120,19 +129,19 @@ export default function PostView() {
             </div>
             {posts.map((post) => (
                 <div key={post.id} className="post">
-                    <MDEditor.Markdown source={post.content} className="" />
+                    <MDEditor.Markdown source={post.content}/>
 
                     <button
                         className="options-button delete-button"
                         onClick={() => Delete(post.id)}
                     >
-                        Delete
+                        Delete <FontAwesomeIcon icon={faTrash} />
                     </button>
                     <button
                         className="edit-button options-button"
                         onClick={() => Edit(post.content, post.id)}
                     >
-                        Edit
+                        Edit <FontAwesomeIcon icon={faPenToSquare} />
                     </button>
                 </div>
             ))}
@@ -151,7 +160,7 @@ export default function PostView() {
                         className="accept-button options-button"
                         onClick={Save}
                     >
-                        Save
+                        Save <FontAwesomeIcon icon={faCheck} />
                     </button>
                     <button
                         className="delete-button options-button"
@@ -160,7 +169,7 @@ export default function PostView() {
                             setPostContext("");
                         }}
                     >
-                        Cancel
+                        Cancel <FontAwesomeIcon icon={faXmark} />
                     </button>
                 </div>
             </div>

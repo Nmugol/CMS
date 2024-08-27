@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { SectionInterface } from "../interface/SectionInterface";
 import { PostContentInterface } from "../interface/PostCreatorInterface";
+import { useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 
 export default function View() {
+
     const [sections, setSections] = useState<SectionInterface[]>([]);
-    const [postList, setPostList] = useState<PostContentInterface[]>([]);
+    const [postList, setPostList] = useState<PostContentInterface[] | null>(null);
     const [selectedSection, setSelectedSection] = useState<number>(1);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,6 +22,7 @@ export default function View() {
                     },
                 });
                 const data = await response.json();
+                console.log(data);
                 setSections(data);
             } catch (error) {
                 console.error("Error:", error);
@@ -61,9 +66,17 @@ export default function View() {
                         {section.name}
                     </button>
                 ))}
+                <button className="menu-item" onClick={() => {
+                    if(localStorage.getItem("token")){
+                        navigate("/edit");
+                    }
+                    else{
+                        navigate("/login");
+                    }
+                }}>Edit</button>
             </div>
             <div className="post-container">
-                {postList.map((post: PostContentInterface) => (
+                {postList && postList.length > 0 && postList.map((post: PostContentInterface) => (
                     <MDEditor.Markdown source={post.content}/>
                 ))}
 
@@ -71,3 +84,4 @@ export default function View() {
         </div>
     );
 }
+
