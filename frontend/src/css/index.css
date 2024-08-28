@@ -63,6 +63,19 @@ button, input{
     display: flex;
     justify-content: center;
     align-items: center;
+    
+    input{
+        background-color: var(--color-two);
+        border-radius: 0.5rem;
+        padding: 0.3rem 0.4rem;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: capitalize;
+
+        &:focus{
+            outline: none;
+        }
+    }
 }
 
 .section
@@ -77,6 +90,18 @@ button, input{
     display: grid;
     grid-template-columns: 2fr 1fr;
     margin: 0.2rem;
+
+    input{
+        background-color: var(--color-two);
+        border-radius: 0.5rem;
+        padding: 0.3rem 0.4rem;
+        font-size: 0.8rem;
+        text-transform: capitalize;
+
+        &:focus{
+            outline: none;
+        }
+    }
 }
 
 .section-options{
@@ -191,6 +216,10 @@ button, input{
     padding: 2rem;
     border-radius: 0.5rem;
     background-color: var(--color-four);
+
+    -webkit-box-shadow: 0px 0px 34px -11px rgba(66, 68, 90, 1);
+-moz-box-shadow: 0px 0px 34px -11px rgba(66, 68, 90, 1);
+box-shadow: 0px 0px 34px -11px rgba(66, 68, 90, 1);
 }
 
 .login-input
@@ -203,6 +232,7 @@ button, input{
     font-size: 1.2rem;
     text-align: center;
     transition: all 0.3s ease;
+    
 
     &:focus{
         outline: none;

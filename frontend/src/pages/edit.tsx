@@ -119,6 +119,8 @@ export default function Edit() {
         fetchData();
     }
 
+    
+
     return (
         <div>
             <h1>Menu sections </h1>
@@ -170,7 +172,7 @@ export default function Edit() {
                                         onChange={(e) =>
                                             setNewSectionName(e.target.value)
                                         }
-                                        placeholder="Enter new section name"
+                                        placeholder="Change section name"
                                     ></input>
                                     </div>
                                     <div className="section-options">
