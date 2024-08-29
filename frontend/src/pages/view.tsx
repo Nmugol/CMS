@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { SectionInterface } from "../interface/SectionInterface";
 import { PostContentInterface } from "../interface/PostCreatorInterface";
 import { useNavigate } from "react-router-dom";
-import MarkdownView from "react-showdown";
 import Slider from "../components/slider";
+import React from "react";
+import MDEditor from "@uiw/react-md-editor";
 export default function View() {
   const [sections, setSections] = useState<SectionInterface[]>([]);
   const [postList, setPostList] = useState<PostContentInterface[] | null>(null);
@@ -60,23 +61,23 @@ export default function View() {
     fetchData();
   }, [selectedSection]);
 
-  const replaceSlidersWithDivs = (text: string): string => {
-    return text.replace(
-      /::slider\s*((?:\!\[\]\([^\)]+\)\s*)+)\s*::endslider/g,
-      (match, content) => {
-        const names = content
-          .match(/\!\[\]\(([^\)]+)\)/g)
-          ?.map((image: string) => {
-            const nameMatch = image.match(/\!\[\]\(([^)]+)\)/);
-            if (nameMatch) {
-              const name = nameMatch[1];
-              return `<img key=${name} src=${name} alt=${name} />`;
-            }
-            return "";
-          }) || [];
+  const replaceSlidersWithDivs = (text: string): JSX.Element => {
+    const contentRegex = /::slider\s*((?:\!\[\]\([^\)]+\)\s*)+)\s*::endslider/g;
+    const contentArray = text.split(contentRegex);
 
-        return names.join("");
-      }
+    return (
+      <React.Fragment>
+        {contentArray.map((element, index) => {
+          const imageRegex = /\!\[\]\(([^\)]+)\)/g;
+          const images = element.match(imageRegex);
+          if (images) {
+            return <Slider key={index} urls={images.map((image) => image.replace(imageRegex, '$1'))} />;
+          }
+          return (
+            <MDEditor.Markdown source={element}/>
+          );
+        })}
+      </React.Fragment>
     );
   };
 
@@ -109,11 +110,7 @@ export default function View() {
         {postList &&
           postList.length > 0 &&
           postList.map((post: PostContentInterface) => (
-            <MarkdownView
-              key={post.id}
-              markdown={replaceSlidersWithDivs(post.content)}
-              options={{ tables: true, emoji: true }}
-            />
+            replaceSlidersWithDivs(post.content)
           ))}
       </div>
     </div>
